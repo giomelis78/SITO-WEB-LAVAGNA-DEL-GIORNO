@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Menu Dinamico | Landing Page</title>
+  <meta name="description" content="MENU DINAMICO: trasforma una foto alla lavagna in un menù digitale, social aggiornati e clienti informati." />
+  <style>
+    :root {
+      --brand-yellow: #f7b500;
+      --brand-orange: #ff8a00;
+      --dark: #161616;
+      --dark-2: #1f1f1f;
+      --light: #ffffff;
+      --muted: #666;
+      --soft: #f7f7f7;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", sans-serif;
+      color: var(--dark);
+      line-height: 1.6;
+      background: var(--light);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin-bottom: 20px;
+    }
+
+    .section-lead {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 138, 0, 0.1);
+      color: #b65700;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero {
+      background: radial-gradient(circle at top, #fff1cf 0%, #fff 56%);
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      margin: 20px 0;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 26px;
+    }
+
+    .hero-list {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 28px;
+      font-weight: 600;
+    }
+
+    .hero-card {
+      background: var(--dark);
+      color: var(--light);
+      padding: 32px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-card h3 {
+      font-size: 1.4rem;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--brand-orange), var(--brand-yellow));
+      color: #1a1a1a;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(255, 138, 0, 0.35);
+    }
+
+    .btn-secondary {
+      border-color: var(--dark);
+      color: var(--dark);
+      background: transparent;
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .card {
+      background: var(--soft);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid #eee;
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .steps {
+      display: grid;
+      gap: 18px;
+      margin-top: 32px;
+    }
+
+    .step {
+      background: var(--light);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid #eee;
+      display: grid;
+      gap: 10px;
+    }
+
+    .step span {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #b65700;
+    }
+
+    .highlight-box {
+      background: var(--dark-2);
+      color: var(--light);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .quote {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--brand-yellow);
+    }
+
+    .story {
+      display: grid;
+      gap: 24px;
+      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .pricing-grid {
+      display: grid;
+      gap: 24px;
+      margin-top: 32px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .price-card {
+      background: var(--light);
+      border-radius: var(--radius);
+      border: 1px solid #e9e9e9;
+      padding: 28px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .price-card.featured {
+      border: 2px solid var(--brand-orange);
+      box-shadow: var(--shadow);
+      position: relative;
+      background: linear-gradient(180deg, #fff4dc 0%, #fff 55%);
+    }
+
+    .price-card.featured::before {
+      content: "PIÙ SCELTO";
+      position: absolute;
+      top: -14px;
+      right: 18px;
+      background: var(--brand-orange);
+      color: #1a1a1a;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .price small {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .price-list {
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .faq-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 32px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .faq-item {
+      background: var(--soft);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid #eee;
+    }
+
+    .contact {
+      background: var(--dark);
+      color: var(--light);
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 32px;
+      align-items: start;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .contact-card {
+      background: var(--dark-2);
+      padding: 24px;
+      border-radius: var(--radius);
+      display: grid;
+      gap: 16px;
+    }
+
+    .contact-card a {
+      color: var(--brand-yellow);
+      font-weight: 600;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-note {
+      font-size: 0.85rem;
+      color: #cfcfcf;
+    }
+
+    footer {
+      padding: 24px 0 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .steps {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="tag">MENU DINAMICO</span>
+        <h1>Risparmia ore ogni settimana: fai una foto al menù e il marketing è già fatto.</h1>
+        <p>Ogni giorno scrivi la lavagna, non hai tempo per i social e il menù resta invisibile online. Con MENU DINAMICO basta uno scatto e tutto è pronto.</p>
+        <div class="hero-list">
+          <div>✅ Social aggiornati in automatico</div>
+          <div>✅ Menù digitale sempre pronto</div>
+          <div>✅ Clienti informati prima di entrare</div>
+          <div>✅ Zero grafica, zero perdite di tempo</div>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-primary" href="#contatti">Richiedi una demo gratuita</a>
+          <a class="btn btn-secondary" href="#come-funziona">Scopri come funziona</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Se scrivi il menù sulla lavagna, hai già fatto metà del marketing.</h3>
+        <p>MENU DINAMICO trasforma la lavagna del giorno in post social, menù online e QR code per i tavoli. Tutto in pochi minuti.</p>
+        <p class="quote">"Una foto al menù. Social aggiornati. Clienti informati."</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="problemi">
+    <div class="container">
+      <h2 class="section-title">Le difficoltà reali di un ristoratore, raccontate da chi ci è passato.</h2>
+      <p class="section-lead">So cosa significa correre tra cucina, sala e fornitori. Il marketing arriva sempre per ultimo, ma i clienti oggi vogliono sapere il menù prima di sedersi.</p>
+      <div class="grid-2" style="margin-top: 32px;">
+        <div class="card">
+          <strong>Tenere vivi i social ogni giorno</strong>
+          <p>Serve tempo, foto, grafiche e testi. Ma il menù cambia e i post diventano vecchi in poche ore.</p>
+        </div>
+        <div class="card">
+          <strong>Far conoscere il menù del giorno</strong>
+          <p>Il tuo piatto migliore resta sulla lavagna, ma chi è fuori non lo vede.</p>
+        </div>
+        <div class="card">
+          <strong>Stampare menù cartacei</strong>
+          <p>Ogni variazione è una ristampa. Costi, sprechi e tempo che si accumula.</p>
+        </div>
+        <div class="card">
+          <strong>Gestire il menù digitale</strong>
+          <p>Ti serve per WhatsApp, per i tavoli e per i social. Ma aggiornare tutto è un incubo.</p>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top: 32px;">
+        <h3>Pagare un Social Media Manager non risolve.</h3>
+        <p>Il costo minimo è 500€/mese. Deve aspettare il menù, creare grafiche, scrivere il post e pubblicare. Alla fine dipende comunque dai tuoi tempi.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="come-funziona" style="background: var(--soft);">
+    <div class="container">
+      <h2 class="section-title">La soluzione è una sola: 📸 una fotografia alla lavagna fisica.</h2>
+      <p class="section-lead">MENU DINAMICO nasce per eliminare passaggi inutili e trasformare il tuo menù in un contenuto pronto da condividere.</p>
+      <div class="steps">
+        <div class="step">
+          <span>Step 1</span>
+          <h4>Scatta una foto alla lavagna</h4>
+          <p>Tu o un cameriere fate lo scatto. Nessuna app complicata.</p>
+        </div>
+        <div class="step">
+          <span>Step 2</span>
+          <h4>Il sistema genera tutto</h4>
+          <p>Lavagna digitale, menù online e post social pronti in automatico.</p>
+        </div>
+        <div class="step">
+          <span>Step 3</span>
+          <h4>Condividi ovunque</h4>
+          <p>Menù online, multilingua, QR code ai tavoli e link WhatsApp.</p>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top: 32px;">
+        <div class="card">
+          <strong>Online in tempo reale</strong>
+          <p>Il tuo menù è subito visibile su Facebook, Instagram e sul sito.</p>
+        </div>
+        <div class="card">
+          <strong>Multilingua & accessibile</strong>
+          <p>Perfetto per turisti, clientela internazionale e sala piena.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="storia">
+    <div class="container story">
+      <div>
+        <h2 class="section-title">La storia del fondatore: sono uno di voi.</h2>
+        <p>Mi chiamo Giorgio, sono un Ingegnere Elettronico e ho gestito per anni un locale a Cagliari. Conosco le corse, i tempi stretti e la fatica di trovare spazio per marketing e pubblicità.</p>
+        <p>Ho creato MENU DINAMICO per far risparmiare tempo, ridurre i costi e rendere accessibile il marketing a qualsiasi locale, anche il più piccolo.</p>
+      </div>
+      <div class="highlight-box">
+        <h3>Menu Dinamico nasce in cucina, non in ufficio.</h3>
+        <p>È pensato per chi vive la sala ogni giorno e vuole un sistema semplice che lavora al posto suo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="prezzi" style="background: var(--soft);">
+    <div class="container">
+      <h2 class="section-title">Scegli il piano giusto per il tuo locale.</h2>
+      <p class="section-lead">Tre opzioni chiare, nessun costo nascosto. Il piano Professional è pensato per il miglior ritorno sull'investimento.</p>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Piano Start</h3>
+          <div class="price">149€ <small>/ mese</small></div>
+          <div class="price-list">
+            <div>✔ Pubblicazione su Facebook <strong>o</strong> Instagram</div>
+            <div>✔ Foto lavagna digitale + testo adattato</div>
+            <div>✔ Menù in 2 lingue: IT / EN</div>
+            <div>✔ Layout grafico per QR code ai tavoli</div>
+            <div>✔ Archivio menù settimanale</div>
+            <div>✔ Supporto email standard</div>
+          </div>
+        </div>
+        <div class="price-card featured">
+          <h3>PROFESSIONAL</h3>
+          <div class="price">199€ <small>/ mese</small></div>
+          <div class="price-list">
+            <div>✔ Pubblicazione su Facebook <strong>e</strong> Instagram</div>
+            <div>✔ Stories giornaliere</div>
+            <div>✔ Menù in 6 lingue: IT, EN, FR, ES, DE, NL</div>
+            <div>✔ Priorità di aggiornamento entro 30 minuti</div>
+            <div>✔ Template grafici personalizzati</div>
+            <div>✔ Analisi mensile delle performance</div>
+            <div>✔ Supporto WhatsApp dedicato</div>
+          </div>
+        </div>
+        <div class="price-card">
+          <h3>CUSTOM</h3>
+          <div class="price">Su richiesta</div>
+          <div class="price-list">
+            <div>✔ Tutto il Professional</div>
+            <div>✔ Soluzioni personalizzate su misura</div>
+            <div>✔ Integrazioni extra</div>
+            <div>✔ Supporto dedicato</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <h2 class="section-title">Domande frequenti</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <strong>Serve essere bravi con i social?</strong>
+          <p>No, pensiamo a tutto noi. Tu invii la foto e noi pubblichiamo.</p>
+        </div>
+        <div class="faq-item">
+          <strong>Devo installare app complicate?</strong>
+          <p>Assolutamente no. Ti basta uno smartphone e la foto della lavagna.</p>
+        </div>
+        <div class="faq-item">
+          <strong>E se cambio il menù più volte al giorno?</strong>
+          <p>Puoi inviare aggiornamenti ogni volta che vuoi. Il sistema si adatta.</p>
+        </div>
+        <div class="faq-item">
+          <strong>È adatto anche ai bar?</strong>
+          <p>Sì, è perfetto per bar, trattorie, ristoranti e locali con menù del giorno.</p>
+        </div>
+        <div class="faq-item">
+          <strong>I clienti useranno il QR code?</strong>
+          <p>Sì, è immediato. Basta inquadrare e il menù appare in pochi secondi.</p>
+        </div>
+        <div class="faq-item">
+          <strong>Serve un social media manager?</strong>
+          <p>No, MENU DINAMICO sostituisce tutto il lavoro operativo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contatti">
+    <div class="container contact-grid">
+      <div>
+        <h2 class="section-title">Prenota una consulenza gratuita</h2>
+        <p class="section-lead" style="color: #d9d9d9;">Scopri come trasformare la tua lavagna in vendite, senza perdere tempo sui social.</p>
+        <div class="contact-card">
+          <div>📞 Telefono: <a href="tel:+393489363303">+39 348 936 3303</a></div>
+          <div>💬 WhatsApp: <a href="https://wa.me/393489363303" target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp</a></div>
+        </div>
+      </div>
+      <form action="mailto:giorgiomelis1978@gmail.com" method="post" enctype="text/plain">
+        <input type="text" name="nome" placeholder="Nome" required />
+        <input type="text" name="locale" placeholder="Nome del locale" required />
+        <input type="tel" name="telefono" placeholder="Telefono" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <textarea name="messaggio" placeholder="Messaggio" required></textarea>
+        <button class="btn btn-primary" type="submit">Prenota una consulenza gratuita</button>
+        <p class="form-note">Cliccando invii una richiesta all'email indicata. Nessuno spam, solo info utili.</p>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">MENU DINAMICO © 2024 - Tutti i diritti riservati.</div>
+  </footer>
+</body>
+</html>
