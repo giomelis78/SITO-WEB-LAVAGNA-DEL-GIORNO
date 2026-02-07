@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MENU DINAMICO — Una foto alla lavagna, social e menù pronti</title>
+  <meta name="description" content="MENU DINAMICO: fai una foto alla lavagna e il sistema crea menù digitale e contenuti social. Risparmi tempo e costi, i clienti leggono il menù via QR." />
+  <style>
+    :root{
+      --orange:#F28C1B;
+      --orange2:#FF9F2A;
+      --dark:#2B2B2B;
+      --muted:#6B6B6B;
+      --bg:#ffffff;
+      --bg2:#FAFAFA;
+      --border:#EAEAEA;
+      --shadow: 0 18px 45px rgba(0,0,0,.08);
+      --radius: 18px;
+      --max: 1120px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--dark);
+      background:var(--bg);
+      line-height:1.5;
+    }
+    a{color:inherit}
+    .container{max-width:var(--max); margin:0 auto; padding:0 20px;}
+    .section{padding:72px 0}
+    .section.alt{background:var(--bg2)}
+    .grid{display:grid; gap:18px}
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: 0 8px 25px rgba(0,0,0,.05);
+      padding:18px;
+    }
+    .h1{
+      font-size: clamp(30px, 4vw, 48px);
+      line-height:1.05;
+      letter-spacing:-.02em;
+      margin:14px 0 14px;
+    }
+    .h2{
+      font-size: clamp(22px, 3vw, 34px);
+      margin:0 0 12px;
+      letter-spacing:-.02em;
+    }
+    .lead{font-size:18px; color:var(--muted); max-width:72ch; margin:0}
+    .muted{color:var(--muted)}
+    .pill{
+      display:inline-flex; gap:8px; align-items:center;
+      border:1px solid var(--border);
+      background:var(--bg2);
+      padding:8px 12px;
+      border-radius:999px;
+      color:var(--muted);
+      font-weight:750;
+      font-size:13px;
+    }
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      font-weight:900;
+      background:rgba(242,140,27,.14);
+      border:1px solid rgba(242,140,27,.25);
+      padding:6px 10px;
+      border-radius:999px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      border-radius:999px;
+      padding:12px 18px;
+      text-decoration:none;
+      font-weight:900;
+      border:1px solid transparent;
+      transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--orange); color:#fff; box-shadow: 0 12px 25px rgba(242,140,27,.25);}
+    .btn-primary:hover{background:var(--orange2)}
+    .btn-ghost{background:transparent; border-color:var(--border);}
+    .btn-ghost:hover{box-shadow: 0 10px 20px rgba(0,0,0,.06)}
+    .btn-wa{
+      background:#25D366; color:#fff; border-color:transparent;
+      box-shadow: 0 12px 25px rgba(37,211,102,.22);
+    }
+    .btn-wa:hover{filter:brightness(0.98)}
+    .check{display:flex; gap:10px; align-items:flex-start}
+    .check i{
+      width:22px; height:22px; flex:0 0 22px;
+      border-radius:6px;
+      background:rgba(242,140,27,.18);
+      border:1px solid rgba(242,140,27,.30);
+      position:relative; margin-top:2px;
+    }
+    .check i:after{
+      content:"";
+      position:absolute;
+      left:6px; top:5px;
+      width:8px; height:4px;
+      border-left:3px solid var(--orange);
+      border-bottom:3px solid var(--orange);
+      transform:rotate(-45deg);
+    }
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.86);
+      backdrop-filter:saturate(180%) blur(12px);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none;
+      font-weight:1000;
+      letter-spacing:.02em;
+    }
+    .logoMark{
+      width:34px; height:34px;
+      border-radius:10px;
+      background:linear-gradient(135deg, var(--orange), var(--orange2));
+      box-shadow: 0 10px 22px rgba(242,140,27,.30);
+      position:relative;
+    }
+    .logoMark:after{
+      content:"";
+      position:absolute;
+      inset:8px 7px 9px 7px;
+      border-radius:6px;
+      background:rgba(255,255,255,.92);
+    }
+    .brand span b{color:var(--orange)}
+    nav{
+      display:flex; gap:14px; align-items:center; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:900;
+      font-size:14px;
+      padding:8px 10px;
+      border-radius:999px;
+    }
+    nav a:hover{background:var(--bg2); color:var(--dark)}
+    .navCtas{display:flex; gap:10px; align-items:center}
+    @media (max-width: 980px){
+      nav .hide-sm{display:none;}
+    }
+
+    /* Hero */
+    .hero{
+      padding:56px 0 34px;
+      background:
+        radial-gradient(1200px 480px at 20% 0%, rgba(242,140,27,.16), transparent 55%),
+        radial-gradient(900px 420px at 85% 10%, rgba(0,0,0,.06), transparent 55%),
+        #fff;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:24px;
+      align-items:center;
+    }
+    @media (max-width: 960px){
+      .heroGrid{grid-template-columns:1fr}
+    }
+    .heroCard{
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.75), rgba(250,250,250,.95));
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+    .heroCtas{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+    .heroBadges{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .miniFlow{display:grid; gap:12px}
+    .step{
+      display:flex; gap:12px; align-items:flex-start;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:white;
+    }
+    .num{
+      width:28px; height:28px; border-radius:10px;
+      display:grid; place-items:center;
+      font-weight:1000;
+      color:#fff;
+      background:var(--orange);
+      box-shadow: 0 10px 20px rgba(242,140,27,.25);
+      flex:0 0 28px;
+    }
+    .step b{display:block}
+    .step p{margin:2px 0 0; color:var(--muted); font-weight:650; font-size:14px}
+
+    /* Pricing */
+    .pricing{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px;
+    }
+    @media (max-width: 980px){
+      .pricing{grid-template-columns:1fr}
+    }
+    .priceCard{padding:22px}
+    .priceTop{display:flex; justify-content:space-between; gap:12px; align-items:flex-start}
+    .price{
+      font-size:34px;
+      font-weight:1100;
+      letter-spacing:-.02em;
+    }
+    .per{color:var(--muted); font-weight:900; font-size:13px}
+    .list{display:grid; gap:10px; margin:16px 0 0; padding:0; list-style:none}
+    .list li{display:flex; gap:10px; align-items:flex-start}
+    .list li span{color:var(--muted); font-weight:700}
+    .highlight{
+      border:2px solid rgba(242,140,27,.45);
+      box-shadow: 0 20px 55px rgba(242,140,27,.12);
+      position:relative;
+      overflow:hidden;
+    }
+    .highlight:before{
+      content:"";
+      position:absolute;
+      width:240px; height:240px;
+      right:-130px; top:-130px;
+      background:radial-gradient(circle, rgba(242,140,27,.26), transparent 65%);
+      transform:rotate(12deg);
+    }
+
+    /* Contact */
+    .contactGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+      align-items:start;
+    }
+    @media (max-width: 960px){
+      .contactGrid{grid-template-columns:1fr}
+    }
+    form{display:grid; gap:12px}
+    label{font-weight:950; font-size:13px; color:var(--dark)}
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:white;
+      font-weight:700;
+      outline:none;
+    }
+    input:focus, textarea:focus{
+      border-color:rgba(242,140,27,.6);
+      box-shadow: 0 0 0 4px rgba(242,140,27,.14);
+    }
+    textarea{min-height:120px; resize:vertical}
+    .fineprint{font-size:12px; color:var(--muted); font-weight:650}
+
+    /* FAQ */
+    details{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px 16px;
+      background:white;
+    }
+    details summary{
+      cursor:pointer;
+      font-weight:1000;
+      color:var(--dark);
+      list-style:none;
+    }
+    details summary::-webkit-details-marker{display:none}
+    details p{margin:10px 0 0; color:var(--muted); font-weight:700}
+
+    /* WhatsApp floating button */
+    .wa-float{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:100;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .wa-badge{
+      display:none;
+      padding:10px 12px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--border);
+      box-shadow: 0 16px 40px rgba(0,0,0,.10);
+      font-weight:900;
+      color:var(--dark);
+    }
+    @media (min-width: 860px){
+      .wa-badge{display:inline-flex}
+    }
+
+    footer{
+      padding:26px 0;
+      border-top:1px solid var(--border);
+      background:white;
+    }
+    .footerRow{
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      color:var(--muted); font-weight:800; font-size:13px;
+    }
+    .mono{font-variant-numeric:tabular-nums}
+  </style>
+</head>
+
+<body>
+
+<!-- WhatsApp floating -->
+<div class="wa-float" aria-label="Contatto WhatsApp">
+  <span class="wa-badge">Domande? Scrivimi su WhatsApp</span>
+  <a class="btn btn-wa" href="https://wa.me/393489363303?text=Ciao%20Giorgio%2C%20vorrei%20informazioni%20su%20MENU%20DINAMICO." target="_blank" rel="noopener">
+    WhatsApp
+  </a>
+</div>
+
+<header>
+  <div class="container">
+    <div class="topbar">
+      <a class="brand" href="#top" aria-label="MENU DINAMICO Home">
+        <span class="logoMark" aria-hidden="true"></span>
+        <span><b>MENU</b> DINAMICO</span>
+      </a>
+
+      <nav aria-label="Navigazione principale">
+        <a class="hide-sm" href="#benefici">Benefici</a>
+        <a class="hide-sm" href="#come">Come funziona</a>
+        <a class="hide-sm" href="#prezzi">Prezzi</a>
+        <a class="hide-sm" href="#faq">FAQ</a>
+        <div class="navCtas">
+          <a class="btn btn-ghost" href="#contatti">Contatti</a>
+          <a class="btn btn-primary" href="#contatti">Richiedi demo</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- A — ATTENTION -->
+  <section class="hero">
+    <div class="container">
+      <div class="heroGrid">
+        <div>
+          <span class="pill">📸 Una foto alla lavagna • ⏱️ Risparmi tempo • 🧾 Menù digitale + Social</span>
+          <h1 class="h1">Il menù del giorno si pubblica da solo.<br>Tu fai solo la foto.</h1>
+          <p class="lead">
+            Ogni giorno scrivi la lavagna fuori dal locale. Con <b>MENU DINAMICO</b> basta uno scatto:
+            il sistema crea una grafica pulita, prepara il post social e mette il menù online.
+            In sala, i clienti lo aprono dal proprio telefono con un QR code.
+          </p>
+
+          <div class="heroCtas">
+            <a class="btn btn-primary" href="#contatti">Richiedi una demo</a>
+            <a class="btn btn-ghost" href="#come">Scopri come funziona</a>
+            <a class="btn btn-wa" href="https://wa.me/393489363303?text=Ciao%20Giorgio%2C%20vorrei%20una%20demo%20di%20MENU%20DINAMICO." target="_blank" rel="noopener">Scrivimi su WhatsApp</a>
+          </div>
+
+          <div class="heroBadges">
+            <span class="tag">Social sempre vivi</span>
+            <span class="tag">Menù al tavolo via QR</span>
+            <span class="tag">Meno costi di gestione</span>
+          </div>
+        </div>
+
+        <div class="heroCard" aria-label="Come funziona in 3 passi">
+          <div class="miniFlow">
+            <div class="step">
+              <div class="num">1</div>
+              <div>
+                <b>Scatta la foto alla lavagna</b>
+                <p>Come fai già ogni giorno. Nessuna complicazione.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">2</div>
+              <div>
+                <b>Il sistema crea tutto</b>
+                <p>Menù digitale, grafica e testo per il post. Pronti.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">3</div>
+              <div>
+                <b>I clienti lo vedono ovunque</b>
+                <p>Social, WhatsApp, e QR sui tavoli: sempre aggiornato.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- I — INTEREST -->
+  <section class="section" id="benefici">
+    <div class="container">
+      <div class="grid" style="grid-template-columns:1.2fr .8fr; align-items:start;">
+        <div>
+          <h2 class="h2">Il problema non è “fare marketing”. È trovare il tempo.</h2>
+          <p class="lead">
+            Tenere vivi i social, stampare il menù del giorno, aggiornare i clienti su WhatsApp…
+            sono attività utili, ma in un locale il tempo è sempre poco.
+            E un social media manager costa spesso <b>500€+ / mese</b> e dipende comunque da quando gli mandi il menù.
+          </p>
+
+          <div class="grid" style="margin-top:18px">
+            <div class="check"><i></i><div><b>Social fermi</b><div class="muted">“Oggi non ho avuto tempo di pubblicare.”</div></div></div>
+            <div class="check"><i></i><div><b>Menù cartaceo ai tavoli</b><div class="muted">Stampare, distribuire, aggiornare: tutto tempo perso.</div></div></div>
+            <div class="check"><i></i><div><b>Clienti che chiedono il menù su WhatsApp</b><div class="muted">Rispondere uno a uno mentre sei in servizio.</div></div></div>
+            <div class="check"><i></i><div><b>Menù digitale sempre disponibile</b><div class="muted">Per chi è indeciso e decide dove andare a pranzo/cena.</div></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 10px; font-size:18px; letter-spacing:-.01em;">Il vantaggio concreto</h3>
+          <p class="muted" style="margin:0 0 14px; font-weight:700;">
+            Se oggi fai già la lavagna… oggi stesso puoi avere:
+          </p>
+          <div class="grid" style="gap:12px">
+            <div class="check"><i></i><div><b>Post pronto</b><div class="muted">Senza aspettare nessuno.</div></div></div>
+            <div class="check"><i></i><div><b>Menù sul telefono dei clienti</b><div class="muted">QR sui tavoli, sempre aggiornato.</div></div></div>
+            <div class="check"><i></i><div><b>Condivisione rapida</b><div class="muted">Link facile per WhatsApp.</div></div></div>
+          </div>
+          <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn btn-primary" href="#contatti">Richiedi demo</a>
+            <a class="btn btn-ghost" href="#prezzi">Vedi prezzi</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- I — HOW IT WORKS -->
+  <section class="section alt" id="come">
+    <div class="container">
+      <h2 class="h2">Come funziona (semplice come sembra)</h2>
+      <p class="lead">La soluzione è una sola: <b>una fotografia alla lavagna fisica</b>.</p>
+
+      <div class="grid" style="grid-template-columns:repeat(3,1fr); margin-top:18px">
+        <div class="card">
+          <div class="pill">📷 Step 1</div>
+          <h3 style="margin:10px 0 6px;">Foto alla lavagna</h3>
+          <p class="muted" style="margin:0; font-weight:700;">Il titolare o un cameriere scatta e invia.</p>
+        </div>
+        <div class="card">
+          <div class="pill">⚙️ Step 2</div>
+          <h3 style="margin:10px 0 6px;">Menù digitale + contenuto</h3>
+          <p class="muted" style="margin:0; font-weight:700;">Grafica pulita, testo pronto, menù online.</p>
+        </div>
+        <div class="card">
+          <div class="pill">✅ Step 3</div>
+          <h3 style="margin:10px 0 6px;">Clienti informati</h3>
+          <p class="muted" style="margin:0; font-weight:700;">Social, WhatsApp e QR ai tavoli: sempre aggiornato.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <h3 style="margin:0 0 8px; font-size:18px;">La mia storia (perché l’ho creato)</h3>
+        <p class="muted" style="margin:0; font-weight:700;">
+          Sono un Ingegnere elettronico e ho gestito per anni un locale a Cagliari: conosco la corsa quotidiana,
+          la difficoltà di conciliare marketing e servizio, e il fatto che “il menù del giorno” è già un contenuto.
+          Ho creato MENU DINAMICO per trasformare quella lavagna in menù digitale e social, con un costo accessibile.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- D — PRICING -->
+  <section class="section" id="prezzi">
+    <div class="container">
+      <h2 class="h2">Prezzi</h2>
+      <p class="lead">Scegli il piano più adatto al tuo locale. Il più richiesto è <b>Professional</b>.</p>
+
+      <div class="pricing" style="margin-top:18px">
+
+        <div class="card priceCard">
+          <div class="priceTop">
+            <div>
+              <div class="pill">START</div>
+              <h3 style="margin:10px 0 6px;">Per iniziare subito</h3>
+              <p class="muted" style="margin:0; font-weight:700;">Essenziale e veloce.</p>
+            </div>
+          </div>
+          <div style="margin-top:14px;">
+            <div class="price">€149 <span class="per">/mese</span></div>
+          </div>
+          <ul class="list">
+            <li><span class="check"><i></i></span><span><b>Pubblicazione</b> su Facebook <b>o</b> Instagram</span></li>
+            <li><span class="check"><i></i></span><span>Foto lavagna digitale + <b>testo adattato</b> al menù</span></li>
+            <li><span class="check"><i></i></span><span><b>2 lingue</b>: Italiano + Inglese</span></li>
+            <li><span class="check"><i></i></span><span><b>Layout QR</b> per i tavoli</span></li>
+            <li><span class="check"><i></i></span><span><b>Link condivisibile</b> per WhatsApp</span></li>
+            <li><span class="check"><i></i></span><span><b>1 menù/giorno</b> (pranzo o cena)</span></li>
+          </ul>
+          <div style="margin-top:16px;">
+            <a class="btn btn-ghost" href="#contatti">Richiedi demo</a>
+          </div>
+        </div>
+
+        <div class="card priceCard highlight">
+          <div class="priceTop">
+            <div>
+              <div class="pill">PROFESSIONAL • Consigliato</div>
+              <h3 style="margin:10px 0 6px;">Più clienti, meno sbatti</h3>
+              <p class="muted" style="margin:0; font-weight:700;">Il miglior rapporto valore/prezzo.</p>
+            </div>
+          </div>
+          <div style="margin-top:14px;">
+            <div class="price">€199 <span class="per">/mese</span></div>
+          </div>
+          <ul class="list">
+            <li><span class="check"><i></i></span><span><b>Pubblicazione</b> Facebook + Instagram</span></li>
+            <li><span class="check"><i></i></span><span><b>Stories</b> giornaliere</span></li>
+            <li><span class="check"><i></i></span><span><b>6 lingue</b>: IT, EN, FR, ES, DE, NL</span></li>
+            <li><span class="check"><i></i></span><span><b>Fino a 3 menù/giorno</b> (pranzo, cena, aperitivo)</span></li>
+            <li><span class="check"><i></i></span><span><b>Grafica personalizzata</b> (stile coerente col locale)</span></li>
+            <li><span class="check"><i></i></span><span><b>QR multi-tavolo</b> (layout pronto da stampare)</span></li>
+            <li><span class="check"><i></i></span><span><b>Priorità supporto</b> e setup assistito</span></li>
+          </ul>
+          <div style="margin-top:16px;">
+            <a class="btn btn-primary" href="#contatti">Prenota una demo</a>
+          </div>
+        </div>
+
+        <div class="card priceCard">
+          <div class="priceTop">
+            <div>
+              <div class="pill">CUSTOM</div>
+              <h3 style="margin:10px 0 6px;">Su misura</h3>
+              <p class="muted" style="margin:0; font-weight:700;">Per esigenze specifiche e canali extra.</p>
+            </div>
+          </div>
+          <div style="margin-top:14px;">
+            <div class="price">Su richiesta</div>
+          </div>
+          <ul class="list">
+            <li><span class="check"><i></i></span><span>Tutto il Professional</span></li>
+            <li><span class="check"><i></i></span><span>Altri social/canali su richiesta</span></li>
+            <li><span class="check"><i></i></span><span>Template e branding avanzati</span></li>
+            <li><span class="check"><i></i></span><span>Integrazioni e automazioni dedicate</span></li>
+            <li><span class="check"><i></i></span><span>Supporto prioritario</span></li>
+          </ul>
+          <div style="margin-top:16px;">
+            <a class="btn btn-ghost" href="#contatti">Parliamone</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- D — FAQ -->
+  <section class="section alt" id="faq">
+    <div class="container">
+      <h2 class="h2">Domande frequenti</h2>
+      <div class="grid" style="margin-top:14px;">
+        <details><summary>Devo essere bravo con i social?</summary><p>No. Tu fai la foto: il sistema prepara contenuto e grafica.</p></details>
+        <details><summary>Serve stampare il menù ogni giorno?</summary><p>No. Con il QR code i clienti vedono il menù sul loro telefono, sempre aggiornato.</p></details>
+        <details><summary>Posso cambiare menù più volte al giorno?</summary><p>Sì: pranzo, cena, aperitivo. Nel Professional puoi gestire più menù giornalieri.</p></details>
+        <details><summary>È utile anche per WhatsApp?</summary><p>Sì: hai un link condivisibile rapido per rispondere in un attimo.</p></details>
+        <details><summary>Mi serve comunque un social media manager?</summary><p>Dipende: molti locali lo eliminano o lo riducono. MENU DINAMICO automatizza il “menù del giorno”.</p></details>
+        <details><summary>Quanto tempo mi fa risparmiare?</summary><p>Di solito: niente impaginazioni, niente file, niente attese. Una foto e hai tutto pronto.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- A — ACTION -->
+  <section class="section" id="contatti">
+    <div class="container">
+      <div class="contactGrid">
+
+        <div class="card">
+          <h2 class="h2" style="margin-bottom:8px;">Contatto rapido</h2>
+          <p class="lead" style="margin-bottom:14px;">
+            Vuoi una demo? Scrivimi su WhatsApp o compila il form.
+          </p>
+
+          <div class="grid" style="gap:12px;">
+            <div class="card" style="box-shadow:none;">
+              <b>Telefono / WhatsApp</b><br>
+              <span class="mono">+39 348 936 3303</span><br>
+              <a class="btn btn-wa" style="margin-top:10px;" href="https://wa.me/393489363303?text=Ciao%20Giorgio%2C%20vorrei%20informazioni%20su%20MENU%20DINAMICO." target="_blank" rel="noopener">Scrivimi su WhatsApp</a>
+            </div>
+          </div>
+
+          <p class="fineprint" style="margin-top:14px;">
+            Rispondo appena possibile. Se vuoi, nel messaggio scrivi: “Tipo di locale + città + quante volte cambi menù al giorno”.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2 class="h2" style="margin-bottom:8px;">Richiedi una demo (via email)</h2>
+          <p class="muted" style="margin-top:0; font-weight:700;">
+            Compila e premi “Invia”: si aprirà la tua app email con i dati già pronti.
+          </p>
+
+          <!--
+            MAILTO: invia aprendo il client email dell'utente.
+            Se vuoi invio automatico senza aprire client -> serve backend o webhook n8n.
+          -->
+          <form id="leadForm">
+            <div>
+              <label for="nome">Nome e Cognome</label>
+              <input id="nome" name="nome" type="text" placeholder="Es. Marco Rossi" required>
+            </div>
+            <div>
+              <label for="locale">Nome del locale</label>
+              <input id="locale" name="locale" type="text" placeholder="Es. Trattoria Da Mario" required>
+            </div>
+            <div>
+              <label for="info">Info</label>
+              <textarea id="info" name="info" placeholder="Es. Città, tipo di locale, quante volte cambi menù al giorno, social usati..."></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Invia richiesta</button>
+
+            <div class="fineprint">
+              L’invio avviene tramite il tuo client email (Gmail/Outlook/Mail). Se preferisci: <a href="https://wa.me/393489363303?text=Ciao%20Giorgio%2C%20vorrei%20una%20demo%20di%20MENU%20DINAMICO." target="_blank" rel="noopener">WhatsApp</a>.
+            </div>
+          </form>
+
+          <script>
+            (function(){
+              const form = document.getElementById('leadForm');
+              form.addEventListener('submit', function(e){
+                e.preventDefault();
+                const nome = encodeURIComponent(document.getElementById('nome').value.trim());
+                const locale = encodeURIComponent(document.getElementById('locale').value.trim());
+                const info = encodeURIComponent(document.getElementById('info').value.trim());
+
+                const to = "giorgiomelis1978@gmail.com";
+                const subject = encodeURIComponent("Richiesta demo MENU DINAMICO — " + decodeURIComponent(locale));
+                const body =
+                  "Nome e Cognome: " + decodeURIComponent(nome) + "\n" +
+                  "Nome del locale: " + decodeURIComponent(locale) + "\n" +
+                  "Info: " + decodeURIComponent(info) + "\n";
+
+                const mailto = "mailto:" + to + "?subject=" + subject + "&body=" + encodeURIComponent(body);
+                window.location.href = mailto;
+              });
+            })();
+          </script>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footerRow">
+      <div>© <span class="mono">MENU DINAMICO</span> — Tutti i diritti riservati</div>
+      <div><a href="#top" style="text-decoration:none;">Torna su ↑</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
